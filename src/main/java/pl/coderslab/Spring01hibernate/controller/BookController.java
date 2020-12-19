@@ -11,8 +11,10 @@ import pl.coderslab.Spring01hibernate.dao.PublisherDao;
 import pl.coderslab.Spring01hibernate.model.Author;
 import pl.coderslab.Spring01hibernate.model.Book;
 import pl.coderslab.Spring01hibernate.model.Publisher;
+import pl.coderslab.Spring01hibernate.repository.BookRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -22,11 +24,32 @@ public class BookController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final AuthorDao authorDao;
+    private final BookRepository bookRepository;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao) {
+    public BookController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.authorDao = authorDao;
+        this.bookRepository = bookRepository;
+    }
+
+    @GetMapping("/repositoryTitle")
+    @ResponseBody
+    public String repositoryTestTitle() {
+        bookRepository.findByTitle("sadasdsa")
+                .map(Book::getId)
+                .ifPresent(System.out::println);
+        return "Wyswielone informacje na konsoli";
+    }
+
+    @GetMapping("/respositoryCat")
+    @ResponseBody
+    public String repositoryCatIdTest() {
+        bookRepository.findAllByCategory_Id(2L)
+                .stream()
+                .map(Book::getTitle)
+                .forEach(System.out::println);
+        return "Wyswietlone info na konsoli";
     }
 
     @GetMapping("/persist")
@@ -110,5 +133,7 @@ public class BookController {
                 .map(Book::getTitle)
                 .collect(Collectors.joining("<br />"));
     }
+
+
 
 }

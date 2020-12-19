@@ -2,6 +2,7 @@ package pl.coderslab.Spring01hibernate.controllerForm;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.Spring01hibernate.dao.AuthorDao;
 import pl.coderslab.Spring01hibernate.dao.BookDao;
@@ -10,6 +11,7 @@ import pl.coderslab.Spring01hibernate.model.Author;
 import pl.coderslab.Spring01hibernate.model.Book;
 import pl.coderslab.Spring01hibernate.model.Publisher;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -49,7 +51,10 @@ public class BookFormController {
     }
 
     @PostMapping("/add")
-    public String persistBook(@ModelAttribute Book book) {
+    public String persistBook(@ModelAttribute @Valid Book book, BindingResult result) {
+        if(result.hasErrors()) {
+            return "book/addAndEdit";
+        }
         bookDao.persist(book);
         return "redirect:";
     }
@@ -61,7 +66,10 @@ public class BookFormController {
     }
 
     @PostMapping("/edit")
-    public  String editBook(@ModelAttribute Book book) {
+    public  String editBook(@ModelAttribute @Valid Book book, BindingResult result) {
+        if(result.hasErrors()) {
+            return "book/addAndEdit";
+        }
         bookDao.merge(book);
         return "redirect:";
     }

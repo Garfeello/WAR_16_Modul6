@@ -27,6 +27,7 @@ public class Author {
     private String pesel;
 
     @Email
+    @NotBlank
     private String email;
 
     public String getFullName() {

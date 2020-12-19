@@ -8,6 +8,7 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleContextResolver;
@@ -21,6 +22,7 @@ import java.util.Set;
 
 @Configuration
 @ComponentScan("pl.coderslab")
+@EnableJpaRepositories(basePackages = "pl.coderslab.Spring01hibernate.repository")
 @EnableTransactionManagement
 public class AppConfig {
 

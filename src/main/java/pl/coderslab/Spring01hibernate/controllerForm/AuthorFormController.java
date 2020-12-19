@@ -2,11 +2,12 @@ package pl.coderslab.Spring01hibernate.controllerForm;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.Spring01hibernate.dao.AuthorDao;
 import pl.coderslab.Spring01hibernate.model.Author;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/authorForm")
@@ -16,11 +17,6 @@ public class AuthorFormController {
 
     public AuthorFormController(AuthorDao authorDao) {
         this.authorDao = authorDao;
-    }
-
-    @ModelAttribute("allAuthors")
-    public List<Author> allAuthors() {
-        return authorDao.findAll();
     }
 
     @GetMapping("/")
@@ -36,7 +32,10 @@ public class AuthorFormController {
     }
 
     @PostMapping("/add")
-    public String persistAuthor(@ModelAttribute Author author) {
+    public String persistAuthor(@ModelAttribute @Valid Author author, BindingResult result) {
+        if(result.hasErrors()) {
+            return "author/addAndEdit";
+        }
         authorDao.persist(author);
         return "redirect:";
     }
@@ -48,7 +47,10 @@ public class AuthorFormController {
     }
 
     @PostMapping("/edit")
-    public String editAuthor(@ModelAttribute Author author) {
+    public String editAuthor(@ModelAttribute @Valid Author author, BindingResult result) {
+        if(result.hasErrors()) {
+            return "author/addAndEdit";
+        }
         authorDao.merge(author);
         return "redirect:";
     }

@@ -38,6 +38,9 @@ public class Book {
     @Min(1)
     private int pages;
 
+    @ManyToOne
+    private Category category;
+
     public String titleWithRating() {
         return this.title + " " + this.rating;
     }
@@ -98,6 +101,14 @@ public class Book {
         this.pages = pages;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -108,6 +119,7 @@ public class Book {
                 ", publisher=" + publisher +
                 ", authorList=" + authorList +
                 ", pages=" + pages +
+                ", category=" + category +
                 '}';
     }
 }
