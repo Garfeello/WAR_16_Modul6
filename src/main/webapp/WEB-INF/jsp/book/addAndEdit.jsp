@@ -1,10 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
-<head>
-    <meta charset="UTF-8">
-</head>
-<body>
-<h2> DODAWANIE NOWEJ KSIAZKI </h2>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
+<h2> DODAWANIE NOWEJ KSIĄŻKI </h2>
 
 <form:form method="post"
            modelAttribute="book">
@@ -19,9 +16,6 @@
                           itemLabel="fullName" itemValue="id" multiple="true" />
 
     <br />
-    <input type="submit" value="Wyslij" />
+    <input type="submit" value="Wyślij" />
 
 </form:form>
-
-</body>
-</html>

@@ -1,6 +1,12 @@
 package pl.coderslab.Spring01hibernate.model;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,17 +18,25 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 5)
     private String title;
 
+    @Range(min = 1, max = 10)
     private int rating;
 
+    @Size(max = 30)
     private String description;
 
     @ManyToOne
+    @NotNull
     private Publisher publisher;
 
     @ManyToMany
+    @NotEmpty
     private List<Author> authorList = new ArrayList<>();
+
+    @Min(1)
+    private int pages;
 
     public String titleWithRating() {
         return this.title + " " + this.rating;
@@ -76,6 +90,14 @@ public class Book {
         this.authorList = authorList;
     }
 
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -85,6 +107,7 @@ public class Book {
                 ", description='" + description + '\'' +
                 ", publisher=" + publisher +
                 ", authorList=" + authorList +
+                ", pages=" + pages +
                 '}';
     }
 }
