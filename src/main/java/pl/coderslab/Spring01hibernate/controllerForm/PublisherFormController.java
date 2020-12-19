@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.Spring01hibernate.dao.PublisherDao;
 import pl.coderslab.Spring01hibernate.model.Publisher;
+import pl.coderslab.Spring01hibernate.service.PublisherSearchService;
 
 import javax.validation.Valid;
 
@@ -14,14 +15,19 @@ import javax.validation.Valid;
 public class PublisherFormController {
 
     private final PublisherDao publisherDao;
+    private final PublisherSearchService publisherSearchService;
 
-    public PublisherFormController(PublisherDao publisherDao) {
+    public PublisherFormController(PublisherDao publisherDao, PublisherSearchService publisherSearchService) {
         this.publisherDao = publisherDao;
+        this.publisherSearchService = publisherSearchService;
+
     }
 
     @GetMapping("/")
-    public String showPublisherList(Model model) {
-        model.addAttribute("allPublishers", publisherDao.findAll());
+    public String showPublisherList(Model model,
+                                    @RequestParam(required = false) String searchMode,
+                                    @RequestParam(required = false) String query) {
+        model.addAttribute("allPublishers", publisherSearchService.executeQuery(searchMode, query));
         return "publisher/all";
     }
 

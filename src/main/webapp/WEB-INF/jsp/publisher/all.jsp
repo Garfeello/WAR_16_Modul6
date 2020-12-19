@@ -7,6 +7,24 @@
     Dodaj nowego wydawce
 </a>
 
+
+<div>
+    <form method="get">
+        <label>
+            Wybierz tryb wyszukiwarki
+            <select name="searchMode">
+                <option value="name">Po nazwie</option>
+                <option value="nip">Po NIP</option>
+                <option value="regon">Po REGON</option>
+            </select>
+        </label>
+        <br />
+        <input type="text" name="query"/>
+        <br />
+        <input type="submit" value="Szukaj">
+    </form>
+</div>
+
 <c:forEach items="${allPublishers}" var="publisher">
     <br />
     ------------------------------------

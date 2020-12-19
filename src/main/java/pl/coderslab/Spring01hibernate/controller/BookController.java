@@ -14,7 +14,6 @@ import pl.coderslab.Spring01hibernate.model.Publisher;
 import pl.coderslab.Spring01hibernate.repository.BookRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
