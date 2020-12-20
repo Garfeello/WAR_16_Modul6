@@ -1,12 +1,13 @@
 package pl.coderslab.Spring01hibernate.controllerForm;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.Spring01hibernate.dao.PublisherDao;
 import pl.coderslab.Spring01hibernate.model.Publisher;
-import pl.coderslab.Spring01hibernate.service.PublisherSearchService;
+import pl.coderslab.Spring01hibernate.service.search.PublisherSearchService;
 
 import javax.validation.Valid;
 
@@ -25,7 +26,7 @@ public class PublisherFormController {
 
     @GetMapping("/")
     public String showPublisherList(Model model,
-                                    @RequestParam(required = false) String searchMode,
+                                    @RequestParam(required = false, defaultValue = StringUtils.EMPTY) String searchMode,
                                     @RequestParam(required = false) String query) {
         model.addAttribute("allPublishers", publisherSearchService.executeQuery(searchMode, query));
         return "publisher/all";

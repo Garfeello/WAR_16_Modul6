@@ -10,9 +10,11 @@ import pl.coderslab.Spring01hibernate.dao.PublisherDao;
 import pl.coderslab.Spring01hibernate.model.Author;
 import pl.coderslab.Spring01hibernate.model.Book;
 import pl.coderslab.Spring01hibernate.model.Publisher;
+import pl.coderslab.Spring01hibernate.service.search.BookSearchService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/bookForm")
@@ -21,11 +23,13 @@ public class BookFormController {
     private final PublisherDao publisherDao;
     private final BookDao bookDao;
     private final AuthorDao authorDao;
+    private final BookSearchService bookSearchService;
 
-    public BookFormController(PublisherDao publisherDao, BookDao bookDao, AuthorDao authorDao) {
+    public BookFormController(PublisherDao publisherDao, BookDao bookDao, AuthorDao authorDao, BookSearchService bookSearchService) {
         this.publisherDao = publisherDao;
         this.bookDao = bookDao;
         this.authorDao = authorDao;
+        this.bookSearchService = bookSearchService;
     }
 
     @ModelAttribute("allPublishers")
@@ -39,8 +43,8 @@ public class BookFormController {
     }
 
     @GetMapping("/")
-    public String showBookList(Model model) {
-        model.addAttribute("allBooks", bookDao.findAll());
+    public String showBookList(Model model, @RequestParam Map<String, String> allParams) {
+        model.addAttribute("allBooks", bookSearchService.executeQuery(allParams));
         return "book/all";
     }
 

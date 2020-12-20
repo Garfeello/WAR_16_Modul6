@@ -8,6 +8,28 @@
     Dodaj nowa książke
 </a>
 
+<div>
+    <form method="get">
+        <label>
+            Wybierz tryb wyszukiwarki
+            <select name="searchMode">
+                <option value="title">Po tytule</option>
+                <option value="description">Po opisie</option>
+                <option value="author">Po autorze</option>
+            </select>
+        </label>
+        <br />
+        <input type="text" name="query"/>
+        <select name="searchAuthor">
+            <c:forEach items="${allAuthors}" var="author">
+                <option value="${author.id}">${author.fullName}</option>
+            </c:forEach>
+        </select>
+        <br />
+        <input type="submit" value="Szukaj">
+    </form>
+</div>
+
 <c:forEach items="${allBooks}" var="book">
     <br />
     ------------------------------------

@@ -1,11 +1,9 @@
-package pl.coderslab.Spring01hibernate.service;
+package pl.coderslab.Spring01hibernate.service.search;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import pl.coderslab.Spring01hibernate.model.Publisher;
 import pl.coderslab.Spring01hibernate.repository.PublisherRepository;
-
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -18,10 +16,6 @@ public class PublisherSearchService {
     }
 
     public List<Publisher> executeQuery(String searchMode, String query) {
-        if (StringUtils.isEmpty(searchMode)) {
-            return publisherRepository.findAll();
-        }
-
         if(StringUtils.isEmpty(query)) {
             return publisherRepository.findAll();
         }
@@ -33,9 +27,9 @@ public class PublisherSearchService {
                 return publisherRepository.findByNipContaining(query);
             case "regon":
                 return publisherRepository.findByRegonContaining(query);
+            default:
+                return publisherRepository.findAll();
         }
-
-        return Collections.emptyList();
     }
 
 }

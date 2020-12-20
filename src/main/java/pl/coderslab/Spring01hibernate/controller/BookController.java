@@ -10,8 +10,10 @@ import pl.coderslab.Spring01hibernate.dao.BookDao;
 import pl.coderslab.Spring01hibernate.dao.PublisherDao;
 import pl.coderslab.Spring01hibernate.model.Author;
 import pl.coderslab.Spring01hibernate.model.Book;
+import pl.coderslab.Spring01hibernate.model.Category;
 import pl.coderslab.Spring01hibernate.model.Publisher;
 import pl.coderslab.Spring01hibernate.repository.BookRepository;
+import pl.coderslab.Spring01hibernate.repository.CategoryRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,18 +26,20 @@ public class BookController {
     private final PublisherDao publisherDao;
     private final AuthorDao authorDao;
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository) {
+    public BookController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository, CategoryRepository categoryRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.authorDao = authorDao;
         this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/repositoryTitle")
     @ResponseBody
     public String repositoryTestTitle() {
-        bookRepository.findByTitle("sadasdsa")
+        bookRepository.findMyBooksByTitle("sadasdsa")
                 .map(Book::getId)
                 .ifPresent(System.out::println);
         return "Wyswielone informacje na konsoli";
@@ -44,7 +48,8 @@ public class BookController {
     @GetMapping("/respositoryCat")
     @ResponseBody
     public String repositoryCatIdTest() {
-        bookRepository.findAllByCategory_Id(2L)
+        Category category = categoryRepository.getOne(1L);
+        bookRepository.getBooksByGivenCat(category)
                 .stream()
                 .map(Book::getTitle)
                 .forEach(System.out::println);
